@@ -83,6 +83,8 @@ class NewsCardSkelton extends StatelessWidget {
 }
 
 class UiLoading extends StatelessWidget {
+  const UiLoading({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(

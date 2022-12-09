@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:podcasts/UI/card.dart';
 import 'package:podcasts/UI/feed_controller.dart';
 import 'package:podcasts/UI/loading.dart';
-import 'package:podcasts/models/podcast.dart';
 
 class PodcastsFeed extends ConsumerStatefulWidget {
   const PodcastsFeed({super.key});
@@ -20,7 +19,7 @@ class _MainPageState extends ConsumerState<PodcastsFeed> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             sliver: SliverAppBar(
                 shape: const Border(
                     bottom: BorderSide(color: Colors.black12, width: 2)),
@@ -45,9 +44,9 @@ class _MainPageState extends ConsumerState<PodcastsFeed> {
                 );
               },
               error: (err, stack) => Text('Error: $err'),
-              loading: () => Center(
+              loading: () => const Center(
                       child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                    padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
                     child: UiLoading(),
                   ))),
         ),

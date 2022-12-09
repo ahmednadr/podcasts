@@ -22,7 +22,7 @@ class _ScreenState extends State<Screen> {
       builder: ((context, ref, _) {
         var selectedPodcast = ref.watch(selectedPodcastProvider);
         return Stack(children: [
-          PodcastsFeed(),
+          const PodcastsFeed(),
           DetailedPlayer(
             audioObject: selectedPodcast,
           ),

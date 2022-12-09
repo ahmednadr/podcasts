@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
+import 'package:podcasts/UI/no_mini_player.dart';
 import 'package:podcasts/models/podcast.dart';
 import 'loading.dart';
 
@@ -10,7 +11,7 @@ const miniplayerPercentageDeclaration = 0.4;
 final ValueNotifier<double> playerExpandProgress =
     ValueNotifier(playerMinHeight);
 
-final MiniplayerController controller = MiniplayerController();
+final MiniplayerController widgetController = MiniplayerController();
 
 class DetailedPlayer extends StatelessWidget {
   final Podcast? audioObject;
@@ -35,9 +36,9 @@ class DetailedPlayer extends StatelessWidget {
         valueNotifier: playerExpandProgress,
         minHeight: playerMinHeight,
         maxHeight: playerMaxHeight,
-        controller: controller,
+        controller: widgetController,
         elevation: 0,
-        backgroundColor: Color.fromARGB(0, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(0, 255, 255, 255),
         curve: Curves.easeOut,
         builder: (height, percentage) {
           if (audioObject != null) {
@@ -58,7 +59,7 @@ class DetailedPlayer extends StatelessWidget {
               icon: Icon(Icons.pause),
               onPressed: onTap,
             );
-            final progressIndicator = LinearProgressIndicator(value: 0.3);
+            var progressIndicator = const LinearProgressIndicator(value: 0.3);
 
             //Declare additional widgets (eg. SkipButton) and variables
             if (!miniplayer) {
@@ -170,6 +171,13 @@ class DetailedPlayer extends StatelessWidget {
               );
             }
 
+            //Miniplayer
+            final percentageMiniplayer = percentageFromValueInRange(
+                min: playerMinHeight,
+                max: playerMaxHeight * miniplayerPercentageDeclaration +
+                    playerMinHeight,
+                value: height);
+
             final imgSmall = ClipRRect(
               borderRadius: BorderRadius.circular(20 - percentage * 10),
               child: Image.network(
@@ -179,15 +187,8 @@ class DetailedPlayer extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             );
-            //Miniplayer
-            final percentageMiniplayer = percentageFromValueInRange(
-                min: playerMinHeight,
-                max: playerMaxHeight * miniplayerPercentageDeclaration +
-                    playerMinHeight,
-                value: height);
 
             final elementOpacity = 1 - 1 * percentageMiniplayer;
-            final progressIndicatorHeight = 4 - 4 * percentageMiniplayer;
 
             return Column(
               children: [
@@ -251,24 +252,7 @@ class DetailedPlayer extends StatelessWidget {
               ],
             );
           } else {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const CircleSkeleton(
-                  size: 50,
-                ),
-                const Skeleton(
-                  height: 20,
-                  width: 200,
-                ),
-                Icon(
-                  Icons.play_arrow,
-                  size: 40,
-                  color: Colors.black.withOpacity(0.2),
-                )
-              ],
-            );
+            return const NoMiniPlayer();
           }
         });
   }

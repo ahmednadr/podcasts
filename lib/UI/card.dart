@@ -11,8 +11,7 @@ class SmallCard extends ConsumerStatefulWidget {
   late String url;
   late Podcast p;
 
-  SmallCard(Podcast p, {Key? key}) : super(key: key) {
-    this.p = p;
+  SmallCard(this.p, {Key? key}) : super(key: key) {
     n = p.n;
     text = p.text;
     image = p.image;
@@ -66,7 +65,7 @@ class _SmallCardState extends ConsumerState<SmallCard> {
                       ),
                       // ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     SizedBox(
