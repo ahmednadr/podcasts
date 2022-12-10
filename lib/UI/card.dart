@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:podcasts/UI/audio_player_controller.dart';
 import 'package:podcasts/UI/screen.dart';
 import '../models/podcast.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

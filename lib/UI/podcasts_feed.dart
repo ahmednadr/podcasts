@@ -30,7 +30,10 @@ class _MainPageState extends ConsumerState<PodcastsFeed> {
                 centerTitle: false,
                 title: const Text(
                   "Podcasts",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 30),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 30,
+                      letterSpacing: -1.5),
                 )),
           )
         ],

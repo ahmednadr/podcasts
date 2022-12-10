@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:miniplayer/miniplayer.dart';
+import 'package:podcasts/UI/audio_player_controller.dart';
 import 'package:podcasts/UI/no_mini_player.dart';
 import 'package:podcasts/models/podcast.dart';
 import 'loading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const double playerMinHeight = 100;
 double playerMaxHeight = 400;
@@ -13,11 +16,10 @@ final ValueNotifier<double> playerExpandProgress =
 
 final MiniplayerController widgetController = MiniplayerController();
 
-class DetailedPlayer extends StatelessWidget {
+class DetailedPlayer extends ConsumerStatefulWidget {
   final Podcast? audioObject;
 
-  const DetailedPlayer({Key? key, required this.audioObject}) : super(key: key);
-
+  const DetailedPlayer({Key? key, required this.audioObject});
   double valueFromPercentageInRange(
       {required final double min, max, percentage}) {
     return percentage * (max - min) + min;
@@ -28,10 +30,29 @@ class DetailedPlayer extends StatelessWidget {
   }
 
   @override
+  ConsumerState<DetailedPlayer> createState() => _DetailedPlayerState();
+}
+
+class _DetailedPlayerState extends ConsumerState<DetailedPlayer> {
+  @override
   Widget build(BuildContext context) {
-    (audioObject == null)
+    (widget.audioObject == null)
         ? playerMaxHeight = playerMinHeight
         : playerMaxHeight = 400;
+
+    final AudioPlayer audioplayer = ref.watch(AudioPlayerControllerProvider);
+    void onTapPlayPause() {
+      audioplayer.playing ? audioplayer.pause() : audioplayer.play();
+    }
+
+    void onTapForward() {
+      audioplayer.seek(audioplayer.duration! + const Duration(seconds: 30));
+    }
+
+    void onTapBack() {
+      audioplayer.seek(audioplayer.duration! - const Duration(seconds: 10));
+    }
+
     return Miniplayer(
         valueNotifier: playerExpandProgress,
         minHeight: playerMinHeight,
@@ -41,35 +62,40 @@ class DetailedPlayer extends StatelessWidget {
         backgroundColor: const Color.fromARGB(0, 255, 255, 255),
         curve: Curves.easeOut,
         builder: (height, percentage) {
-          if (audioObject != null) {
+          if (widget.audioObject != null) {
             final bool miniplayer =
                 percentage < miniplayerPercentageDeclaration;
             final double width = MediaQuery.of(context).size.width;
             final maxImgSize = width * 0.4;
 
             final text = Text(
-              audioObject!.n,
+              widget.audioObject!.n,
               maxLines: 2,
               softWrap: true,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               textAlign: TextAlign.left,
             );
-            const buttonPlay = IconButton(
+            var buttonPlay = IconButton(
               icon: Icon(Icons.pause),
-              onPressed: onTap,
+              onPressed: onTapPlayPause,
             );
-            var progressIndicator = const LinearProgressIndicator(value: 0.3);
+            var progressIndicator = LinearProgressIndicator(
+              value: audioplayer.duration!.inSeconds / 10, // TODO: audio time
+              // ref.read(selectedPodcastProvider).text,
+              color: Colors.orange,
+              backgroundColor: Colors.grey,
+            );
 
             //Declare additional widgets (eg. SkipButton) and variables
             if (!miniplayer) {
-              var percentageExpandedPlayer = percentageFromValueInRange(
+              var percentageExpandedPlayer = widget.percentageFromValueInRange(
                   min: playerMaxHeight * miniplayerPercentageDeclaration +
                       playerMinHeight,
                   max: playerMaxHeight,
                   value: height);
               if (percentageExpandedPlayer < 0) percentageExpandedPlayer = 0;
-              final paddingVertical = valueFromPercentageInRange(
+              final paddingVertical = widget.valueFromPercentageInRange(
                   min: 0, max: 20, percentage: percentageExpandedPlayer);
               final double heightWithoutPadding =
                   height - paddingVertical * 2 - 10;
@@ -78,32 +104,32 @@ class DetailedPlayer extends StatelessWidget {
                   ? maxImgSize
                   : heightWithoutPadding;
 
-              final paddingLeft = valueFromPercentageInRange(
+              final paddingLeft = widget.valueFromPercentageInRange(
                     min: 48,
                     max: width - imageSize,
                     percentage: percentageExpandedPlayer,
                   ) /
                   2;
 
-              const buttonSkipForward = IconButton(
+              var buttonSkipForward = IconButton(
                 icon: Icon(Icons.forward_30),
                 iconSize: 40,
-                onPressed: onTap,
+                onPressed: onTapForward,
               );
-              const buttonSkipBackwards = IconButton(
+              var buttonSkipBackwards = IconButton(
                 icon: Icon(Icons.replay_10),
                 iconSize: 40,
-                onPressed: onTap,
+                onPressed: onTapBack,
               );
-              const buttonPlayExpanded = IconButton(
+              var buttonPlayExpanded = IconButton(
                 icon: Icon(Icons.pause_outlined),
                 iconSize: 60,
-                onPressed: onTap,
+                onPressed: onTapPlayPause,
               );
               final imgExpanded = ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: Image.network(
-                  audioObject!.image,
+                  widget.audioObject!.image,
                   height: imageSize,
                   width: imageSize,
                   fit: BoxFit.cover,
@@ -153,7 +179,7 @@ class DetailedPlayer extends StatelessWidget {
                                 Flexible(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
+                                    children: [
                                       buttonSkipBackwards,
                                       buttonPlayExpanded,
                                       buttonSkipForward
@@ -172,7 +198,7 @@ class DetailedPlayer extends StatelessWidget {
             }
 
             //Miniplayer
-            final percentageMiniplayer = percentageFromValueInRange(
+            final percentageMiniplayer = widget.percentageFromValueInRange(
                 min: playerMinHeight,
                 max: playerMaxHeight * miniplayerPercentageDeclaration +
                     playerMinHeight,
@@ -181,7 +207,7 @@ class DetailedPlayer extends StatelessWidget {
             final imgSmall = ClipRRect(
               borderRadius: BorderRadius.circular(20 - percentage * 10),
               child: Image.network(
-                audioObject!.image,
+                widget.audioObject!.image,
                 height: 50 + percentage * 250,
                 width: 50 + percentage * 250,
                 fit: BoxFit.cover,
@@ -216,13 +242,13 @@ class DetailedPlayer extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(audioObject!.n,
+                                Text(widget.audioObject!.n,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText2!
                                         .copyWith(fontSize: 16)),
                                 Text(
-                                  audioObject!.text,
+                                  widget.audioObject!.text,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText2!
@@ -257,5 +283,3 @@ class DetailedPlayer extends StatelessWidget {
         });
   }
 }
-
-void onTap() {}

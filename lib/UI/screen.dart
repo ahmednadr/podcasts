@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:podcasts/UI/player.dart';
-import 'package:podcasts/models/podcast.dart';
+import 'audio_player_controller.dart';
 import 'podcasts_feed.dart';
-
-final selectedPodcastProvider = StateProvider<Podcast?>((ref) => null);
 
 class Screen extends StatefulWidget {
   const Screen({
