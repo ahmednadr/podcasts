@@ -17,7 +17,8 @@ class ThreadFeedController {
       Podcast(
           n: "Follow Your Passion is Terrible Advice. Here's Why.",
           text: "10 mins",
-          url: "url",
+          url:
+              "https://d3rlna7iyyu8wu.cloudfront.net/skip_armstrong/skip_armstrong_multichannel_subs.m3u8",
           image: "https://www.linkpicture.com/q/passion_1.png"),
       Podcast(
           n: "A day in the life of a billionaire.",

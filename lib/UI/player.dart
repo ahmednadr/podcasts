@@ -81,7 +81,8 @@ class _DetailedPlayerState extends ConsumerState<DetailedPlayer> {
               onPressed: onTapPlayPause,
             );
             var progressIndicator = LinearProgressIndicator(
-              value: audioplayer.duration!.inSeconds / 10, // TODO: audio time
+              value: 0.3,
+              // value: audioplayer.duration!.inSeconds / 10, // TODO: audio time
               // ref.read(selectedPodcastProvider).text,
               color: Colors.orange,
               backgroundColor: Colors.grey,
