@@ -34,6 +34,7 @@ class DetailedPlayer extends ConsumerStatefulWidget {
 }
 
 class _DetailedPlayerState extends ConsumerState<DetailedPlayer> {
+  var playPauseIcon = Icon(Icons.pause);
   @override
   Widget build(BuildContext context) {
     (widget.audioObject == null)
@@ -42,7 +43,17 @@ class _DetailedPlayerState extends ConsumerState<DetailedPlayer> {
 
     final AudioPlayer audioplayer = ref.watch(AudioPlayerControllerProvider);
     void onTapPlayPause() {
-      audioplayer.playing ? audioplayer.pause() : audioplayer.play();
+      if (audioplayer.playing) {
+        audioplayer.pause();
+        setState(() {
+          playPauseIcon = Icon(Icons.play_arrow);
+        });
+      } else {
+        audioplayer.play();
+        setState(() {
+          playPauseIcon = Icon(Icons.pause);
+        });
+      }
     }
 
     void onTapForward() {
@@ -77,10 +88,10 @@ class _DetailedPlayerState extends ConsumerState<DetailedPlayer> {
               textAlign: TextAlign.left,
             );
             var buttonPlay = IconButton(
-              icon: Icon(Icons.pause),
+              icon: playPauseIcon,
               onPressed: onTapPlayPause,
             );
-            var progressIndicator = LinearProgressIndicator(
+            var progressIndicator = const LinearProgressIndicator(
               value: 0.3,
               // value: audioplayer.duration!.inSeconds / 10, // TODO: audio time
               // ref.read(selectedPodcastProvider).text,
@@ -123,7 +134,7 @@ class _DetailedPlayerState extends ConsumerState<DetailedPlayer> {
                 onPressed: onTapBack,
               );
               var buttonPlayExpanded = IconButton(
-                icon: Icon(Icons.pause_outlined),
+                icon: playPauseIcon,
                 iconSize: 60,
                 onPressed: onTapPlayPause,
               );
