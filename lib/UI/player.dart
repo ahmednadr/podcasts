@@ -34,34 +34,34 @@ class DetailedPlayer extends ConsumerStatefulWidget {
 }
 
 class _DetailedPlayerState extends ConsumerState<DetailedPlayer> {
-  var playPauseIcon = Icon(Icons.pause);
+  var playPauseIcon = const Icon(Icons.pause);
   @override
   Widget build(BuildContext context) {
     (widget.audioObject == null)
         ? playerMaxHeight = playerMinHeight
         : playerMaxHeight = 400;
 
-    final AudioPlayer audioplayer = ref.watch(AudioPlayerControllerProvider);
+    final AudioPlayer audioplayer = ref.watch(audioPlayerControllerProvider);
     void onTapPlayPause() {
       if (audioplayer.playing) {
         audioplayer.pause();
         setState(() {
-          playPauseIcon = Icon(Icons.play_arrow);
+          playPauseIcon = const Icon(Icons.play_arrow);
         });
       } else {
         audioplayer.play();
         setState(() {
-          playPauseIcon = Icon(Icons.pause);
+          playPauseIcon = const Icon(Icons.pause);
         });
       }
     }
 
     void onTapForward() {
-      audioplayer.seek(audioplayer.duration! + const Duration(seconds: 30));
+      audioplayer.seek(audioplayer.position + const Duration(seconds: 30));
     }
 
     void onTapBack() {
-      audioplayer.seek(audioplayer.duration! - const Duration(seconds: 10));
+      audioplayer.seek(audioplayer.position - const Duration(seconds: 10));
     }
 
     return Miniplayer(
@@ -89,11 +89,11 @@ class _DetailedPlayerState extends ConsumerState<DetailedPlayer> {
             );
             var buttonPlay = IconButton(
               icon: playPauseIcon,
+              iconSize: 35,
               onPressed: onTapPlayPause,
             );
             var progressIndicator = const LinearProgressIndicator(
-              value: 0.3,
-              // value: audioplayer.duration!.inSeconds / 10, // TODO: audio time
+              value: 0.3, // TODO: audio time
               // ref.read(selectedPodcastProvider).text,
               color: Colors.orange,
               backgroundColor: Colors.grey,
@@ -124,12 +124,12 @@ class _DetailedPlayerState extends ConsumerState<DetailedPlayer> {
                   2;
 
               var buttonSkipForward = IconButton(
-                icon: Icon(Icons.forward_30),
+                icon: const Icon(Icons.forward_30),
                 iconSize: 40,
                 onPressed: onTapForward,
               );
               var buttonSkipBackwards = IconButton(
-                icon: Icon(Icons.replay_10),
+                icon: const Icon(Icons.replay_10),
                 iconSize: 40,
                 onPressed: onTapBack,
               );

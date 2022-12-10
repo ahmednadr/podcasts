@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:podcasts/UI/audio_player_controller.dart';
-import 'package:podcasts/UI/screen.dart';
 import '../models/podcast.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,8 +48,7 @@ class _SmallCardState extends ConsumerState<SmallCard> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     SizedBox(
@@ -61,7 +59,9 @@ class _SmallCardState extends ConsumerState<SmallCard> {
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500),
+                            letterSpacing: -0.5,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600),
                         textAlign: TextAlign.left,
                       ),
                       // ),

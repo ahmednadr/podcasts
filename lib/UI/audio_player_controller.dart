@@ -4,7 +4,7 @@ import 'package:podcasts/models/podcast.dart';
 
 final selectedPodcastProvider = StateProvider<Podcast?>((ref) => null);
 
-final AudioPlayerControllerProvider = StateProvider<AudioPlayer>((ref) {
+final audioPlayerControllerProvider = StateProvider<AudioPlayer>((ref) {
   var podcast = ref.watch(selectedPodcastProvider.state).state;
   AudioPlayer player = AudioPlayer();
   if (podcast != null) {
