@@ -94,16 +94,15 @@ class _DetailedPlayerState extends ConsumerState<DetailedPlayer> {
             );
 
             var progressIndicator = const LinearProgressIndicator(
-              value: 0.3,
-              color: Colors.orange,
+              value: 1,
+              color: Colors.indigo,
               backgroundColor: Colors.grey,
             );
 
             // var progressIndicator = StreamBuilder(
             //     stream: audioplayer.positionStream,
             //     builder: ((context, snapshot) => LinearProgressIndicator(
-            //           value: snapshot.data!.inMicroseconds /
-            //               audioplayer.duration!.inMicroseconds,
+            //           value: snapshot.data!.inMilliseconds / 100,
             //           color: Colors.orange,
             //           backgroundColor: Colors.grey,
             //         )));
