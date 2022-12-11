@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:podcasts/UI/card.dart';
+import 'package:podcasts/UI/big_card.dart';
+import 'package:podcasts/UI/small_card.dart';
 import 'package:podcasts/UI/feed_controller.dart';
 import 'package:podcasts/UI/loading.dart';
 
@@ -43,7 +44,10 @@ class _MainPageState extends ConsumerState<PodcastsFeed> {
               data: (data) {
                 return ListView.builder(
                   itemCount: data.length,
-                  itemBuilder: (context, index) => SmallCard(data[index]),
+                  itemBuilder: (context, index) {
+                    if (index == 0) return BigCard(data[index]);
+                    return SmallCard(data[index]);
+                  },
                 );
               },
               error: (err, stack) => Text('Error: $err'),
