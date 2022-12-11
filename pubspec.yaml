@@ -39,6 +39,8 @@ dependencies:
   flutter_riverpod: ^1.0.4
   miniplayer: ^1.0.1
   just_audio: ^0.9.30
+  just_audio_background: any # substitute version number
+
   flutter_launcher_icons: ^0.11.0
 
 dev_dependencies:

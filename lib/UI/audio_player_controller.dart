@@ -10,6 +10,7 @@ final audioPlayerControllerProvider =
   var podcast = ref.watch(selectedPodcastProvider.state).state;
   if (podcast != null) {
     player.setUrl(podcast.url);
+
     player.play();
   }
   return player;

@@ -39,7 +39,7 @@ class _MainPageState extends ConsumerState<PodcastsFeed> {
           )
         ],
         body: Padding(
-          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 70.0),
           child: controller.when(
               data: (data) {
                 return ListView.builder(

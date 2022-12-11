@@ -92,12 +92,21 @@ class _DetailedPlayerState extends ConsumerState<DetailedPlayer> {
               iconSize: 35,
               onPressed: onTapPlayPause,
             );
+
             var progressIndicator = const LinearProgressIndicator(
-              value: 0.3, // TODO: audio time
-              // ref.read(selectedPodcastProvider).text,
+              value: 0.3,
               color: Colors.orange,
               backgroundColor: Colors.grey,
             );
+
+            // var progressIndicator = StreamBuilder(
+            //     stream: audioplayer.positionStream,
+            //     builder: ((context, snapshot) => LinearProgressIndicator(
+            //           value: snapshot.data!.inMicroseconds /
+            //               audioplayer.duration!.inMicroseconds,
+            //           color: Colors.orange,
+            //           backgroundColor: Colors.grey,
+            //         )));
 
             //Declare additional widgets (eg. SkipButton) and variables
             if (!miniplayer) {
