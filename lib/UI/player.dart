@@ -19,7 +19,7 @@ final MiniplayerController widgetController = MiniplayerController();
 class DetailedPlayer extends ConsumerStatefulWidget {
   final Podcast? audioObject;
 
-  const DetailedPlayer({Key? key, required this.audioObject});
+  const DetailedPlayer({super.key, required this.audioObject});
   double valueFromPercentageInRange(
       {required final double min, max, percentage}) {
     return percentage * (max - min) + min;
