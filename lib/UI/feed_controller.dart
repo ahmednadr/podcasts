@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:podcasts/UI/scan.dart';
 import 'package:podcasts/models/podcast.dart';
 
 var feedProvider = StreamProvider((ref) {
@@ -12,13 +13,16 @@ class ThreadFeedController {
   ThreadFeedController(this.ref);
 
   Stream<List<Podcast>> getFeed() async* {
-    await Future.delayed(const Duration(milliseconds: 800));
+    final scanner = ref.read(scanProvider);
+    await scanner.scanNetwork(5000);
+    var ips = scanner.ips;
+    if (ips.isEmpty) throw Error();
     List<Podcast> lst = [
       Podcast(
           n: "How will AI change the world we know today?",
           text: "10 mins",
           url:
-              "https://d3rlna7iyyu8wu.cloudfront.net/skip_armstrong/skip_armstrong_multichannel_subs.m3u8",
+              "http://${ips.last}:5000/audio/how%20will%20ai%20change%20the%20world.webm",
           image:
               "https://firebasestorage.googleapis.com/v0/b/adg-forums-4644c.appspot.com/o/posts%2FScreenshot%202022-12-10%20at%2011.37.33%20PM.png?alt=media&token=0506014e-b309-4c23-8e85-c5c3dbe89d36"),
       Podcast(

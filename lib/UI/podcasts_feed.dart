@@ -50,7 +50,28 @@ class _MainPageState extends ConsumerState<PodcastsFeed> {
                   },
                 );
               },
-              error: (err, stack) => Text('Error: $err'),
+              error: (err, stack) => Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          height: 150,
+                          child: Image.asset(
+                              "lib/assets/icons/no_connection.png")),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 10.0),
+                        child: Text(
+                          "server not available",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black54),
+                        ),
+                      )
+                    ],
+                  ),
               loading: () => const Center(
                       child: Padding(
                     padding: EdgeInsets.fromLTRB(8, 0, 8, 8),
